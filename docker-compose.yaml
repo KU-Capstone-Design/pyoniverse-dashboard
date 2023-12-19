@@ -1,0 +1,21 @@
+version: '3.1'
+
+services:
+  db:
+    image: mariadb
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: ku-database
+    ports:
+      - "3306:3306"
+    volumes:
+#      initdb.d 의 sql은 알파벳 순서대로 실행된다.
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/1.schema.sql
+      - ./database/data.sql:/docker-entrypoint-initdb.d/2.data.sql
+      - ./database/sample.sql:/docker-entrypoint-initdb.d/3.sample.sql
