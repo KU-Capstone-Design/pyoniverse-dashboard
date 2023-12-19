@@ -1,0 +1,11 @@
+*.log
+*.cache
+*.json
+*.yaml
+*.md
+*.sh
+.github
+doc
+database
+test
+vendor
