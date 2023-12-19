@@ -24,3 +24,6 @@
 ## 구현
 - [SQL Schema](database/schema.sql)
 - [Code Summary](doc/implementation.md)
+## 배포
+- AWS APP Runner로 배포한다.
+- 도쿄(ap-northeast-1)에 배포되기 때문에 이미지 역시 해당 지역에 올린다.
