@@ -116,6 +116,9 @@ class ProductController implements Controller
         if (key_exists("category", $_POST)) {
             $updatedAttributes["category"] = $_POST["category"];
         }
+        if (key_exists("description", $_POST)) {
+            $updatedAttributes["description"] = $_POST["description"];
+        }
         // update
         $this->productBusiness->updateAttributes(id: $productId, updatedAttributes: $updatedAttributes);
         if (!key_exists("redirect", $_POST)) {
