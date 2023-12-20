@@ -81,8 +81,6 @@ FORM;
         $filterForm = $filterForm . "</form>";
 
         // Update Category Button
-
-
         $style = <<<STYLE
 table {
   border-collapse: collapse;
