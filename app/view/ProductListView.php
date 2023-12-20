@@ -35,12 +35,33 @@ class ProductListView extends AbstractView
         /* @var $col string */
         $body = "<tbody>";
         foreach ($this->data as $row) {
-            $row_info = "<tr onclick=\"window.location.href='/products/{$row["id"]}'\">";
+            $row_info = "<tr>";
             foreach ($this->columns as $col) {
                 if ($col == "image") {
-                    $row_info = $row_info . "<td><img src='$row[$col]' alt='$row[$col]' width='100' height='100'/></td>";
+                    $row_info = $row_info . "<td onclick=\"window.location.href='/products/{$row["id"]}'\">
+<img src='$row[$col]' alt='$row[$col]' width='100' height='100'/>
+</td>";
+                } elseif ($col == "category") {
+                    // Mutable Categories
+                    $categorySelector = "<select name=\"category\" id=\"category\">";
+                    foreach ($this->categories as $categoryId => $categoryName) {
+                        if ($categoryName != $row[$col]) {
+                            $categorySelector = $categorySelector . "<option value='$categoryId'>$categoryName</option>";
+                        } else {
+                            $categorySelector = $categorySelector . "<option value='$categoryId' selected>$categoryName</option>";
+                        }
+                    }
+                    $updateForm = <<<FORM
+<form action="/products/{$row["id"]}" method="POST">
+$categorySelector
+<input type="hidden" name="redirect" value="{$_SERVER["REQUEST_URI"]}"/>
+<input type="submit" value="수정하기" />
+</form>
+FORM;
+                    $row_info = $row_info . "<td>" . $updateForm . "</td>";
                 } else {
-                    $row_info = $row_info . "<td>" . $row[$col] . "</td>";
+                    $row_info = $row_info . "<td onclick=\"window.location.href='/products/{$row["id"]}'\">"
+                        . $row[$col] . "</td>";
                 }
 
             }
@@ -58,6 +79,9 @@ class ProductListView extends AbstractView
         }
         $filterForm = $filterForm . "<input type=\"submit\" value=\"Submit\" onclick=\"convertToString()\">";
         $filterForm = $filterForm . "</form>";
+
+        // Update Category Button
+
 
         $style = <<<STYLE
 table {
