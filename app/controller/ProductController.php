@@ -118,6 +118,11 @@ class ProductController implements Controller
         }
         // update
         $this->productBusiness->updateAttributes(id: $productId, updatedAttributes: $updatedAttributes);
-        return new RedirectView("/products/$productId");
+        if (!key_exists("redirect", $_POST)) {
+            $redirectUrl = $_SERVER["HTTP_REFERER"];
+        } else {
+            $redirectUrl = $_POST["redirect"];
+        }
+        return new RedirectView($redirectUrl);
     }
 }
